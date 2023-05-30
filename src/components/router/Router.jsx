@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import Home from "../home/Home";
-import SignIn from "../sign-in/SignIn";
+import Home from "../pages/home/Home";
+import SignIn from "../pages/sign-in/SignIn";
 
 const Router = () => {
     // const basename = "/projects/BefaArt/";
