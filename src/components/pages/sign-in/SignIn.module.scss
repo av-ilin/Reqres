@@ -11,8 +11,8 @@
     box-sizing: border-box;
     padding: 10px;
     position: relative;
-    width: 590px;
-    height: 635px;
+    width: 400px;
+    height: 400px;
 
     display: flex;
     flex-direction: column;
@@ -26,15 +26,16 @@
 
     & > img {
         position: absolute;
-        top: -50px;
-        left: calc(50% - 50px);
-        width: 100px;
-        height: 100px;
+        top: -35px;
+        left: calc(50% - 35px);
+        width: 70px;
+        height: 70px;
         object-fit: contain;
         object-position: center;
     }
 
     & > h2 {
+        margin-top: 50px;
         color: rgba(0, 120, 240, 0.5);
     }
 }

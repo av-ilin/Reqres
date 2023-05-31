@@ -1,6 +1,6 @@
-import styles from "./Input.module.scss";
+import styles from "./SignInput.module.scss";
 
-const InputPassword = () => {
+const InputPassword = ({ onChange }) => {
     return (
         <div className={styles.field}>
             <i className={styles.icon + " fa fa-lock"} aria-hidden="true"></i>
@@ -8,6 +8,7 @@ const InputPassword = () => {
                 className={styles.input}
                 type="password"
                 placeholder="Password"
+                onChange={onChange}
             />
         </div>
     );
