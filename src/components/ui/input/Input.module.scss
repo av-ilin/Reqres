@@ -1,0 +1,29 @@
+.field {
+    padding: 20px 0px;
+    position: relative;
+}
+
+.icon {
+    position: absolute;
+    top: 30px;
+    color: #7875b5;
+}
+
+.input {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-bottom: 2px solid #d1d1d4;
+    background: none;
+    padding: 10px;
+    padding-left: 24px;
+    width: 75%;
+    transition: 0.2s;
+
+    &:active,
+    &:hover,
+    &:focus {
+        outline: none;
+        border-bottom-color: #6a679e;
+    }
+}
