@@ -16,7 +16,6 @@ const SignIn = () => {
 
     const onInputPassword = (event) => setPassword(event.target.value);
     const onInputLogin = (event) => setLogin(event.target.value);
-
     function onEnter() {
         console.log(login);
         console.log(password);
