@@ -2,10 +2,12 @@ import styles from "./Home.module.scss";
 
 import Button from "../../ui/button/Button";
 
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const Home = () => {
     const username = useSelector((state) => state.username);
+    const data = useState([]);
 
     const tmp = [];
     for (let i = 0; i < 16; i++) tmp.push(0);
