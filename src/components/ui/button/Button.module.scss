@@ -1,0 +1,17 @@
+.button {
+    border: none;
+    cursor: pointer;
+    width: 108px;
+    height: 34px;
+    border-radius: 6px;
+    color: white;
+
+    transition: all 0.4s ease-in-out;
+    &:hover {
+        transform: scale(0.95);
+        filter: contrast(2);
+    }
+    &:active {
+        filter: contrast(5);
+    }
+}

@@ -22,6 +22,7 @@ const SignIn = () => {
         console.log(email);
         console.log(password);
         dispatch({ type: "SET_TOKEN", payload: "ok" });
+        dispatch({ type: "SET_USERNAME", payload: "Andrey" });
         navigate("/");
     }
 

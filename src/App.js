@@ -4,11 +4,14 @@ import { Provider } from "react-redux";
 
 const defaultState = {
     token: "",
+    username: "",
 };
 const reducer = (state = defaultState, action) => {
     switch (action.type) {
         case "SET_TOKEN":
             return { ...state, token: action.payload };
+        case "SET_USERNAME":
+            return { ...state, username: action.payload };
         default:
             return state;
     }
