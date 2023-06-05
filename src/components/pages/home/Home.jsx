@@ -4,13 +4,22 @@ import Button from "../../ui/button/Button";
 
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import ReqresApi from "../../../api/ReqresApi";
 
 const Home = () => {
     const username = useSelector((state) => state.username);
-    const data = useState([]);
+    const [colors, setColors] = useState([]);
 
-    const tmp = [];
-    for (let i = 0; i < 16; i++) tmp.push(0);
+    useEffect(() => {
+        fetchColors();
+    }, []);
+
+    async function fetchColors() {
+        const data = await ReqresApi.getResource(1, 5);
+        setColors(data.data);
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.home}>
@@ -22,29 +31,39 @@ const Home = () => {
                     <table className={styles["table"]}>
                         <thead>
                             <tr>
-                                <th>Color</th>
+                                <th>&nbsp;</th>
                                 <th>Name</th>
                                 <th>Year</th>
                                 <th>RGB</th>
                                 <th>Pantone</th>
-                                <th></th>
+                                <th>&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {tmp.map((_, i) => (
+                            {colors.map((color, i) => (
                                 <tr>
-                                    <td>{i}</td>
-                                    <td>cerulean</td>
-                                    <td>2000</td>
-                                    <td>#98B2D1</td>
-                                    <td>15-4020</td>
+                                    <td>
+                                        <div
+                                            style={{
+                                                backgroundColor: color.color,
+                                            }}
+                                        />
+                                    </td>
+                                    <td>{color.name}</td>
+                                    <td>{color.year}</td>
+                                    <td>{color.color}</td>
+                                    <td>{color.pantone_value}</td>
                                     <td className={styles["table-buts"]}>
                                         <Button
-                                            text={<i class="fa fa-pencil"></i>}
+                                            text={
+                                                <i className="fa fa-pencil"></i>
+                                            }
                                             bgColor="green"
                                         />
                                         <Button
-                                            text={<i class="fa fa-trash"></i>}
+                                            text={
+                                                <i className="fa fa-trash"></i>
+                                            }
                                             bgColor="red"
                                         />
                                     </td>
