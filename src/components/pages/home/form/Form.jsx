@@ -7,15 +7,18 @@ import { useState, useEffect } from "react";
 import ReqresApi from "../../../../api/ReqresApi";
 import Loader from "../../../ui/loader/Loader";
 
-const Form = ({ iName = "", iYear = "", iRgb = "", iPantone = "" } = {}) => {
-    const [error, setError] = useState("");
-    const [name, setName] = useState(iName);
-    const [year, setYear] = useState(iYear);
-    const [rgb, setRgb] = useState(iRgb);
-    const [pantone, setPantone] = useState(iPantone);
+const Form = ({
+    setIsOpenFrom,
+    upd = false,
+    init = { id: undefined, name: "", year: "", rgb: "", pantone: "" },
+} = {}) => {
+    const [name, setName] = useState(init.name);
+    const [year, setYear] = useState(init.year);
+    const [rgb, setRgb] = useState(init.rgb);
+    const [pantone, setPantone] = useState(init.pantone);
     const [disButton, setDisButton] = useState(true);
-    const [disInput, setDisInput] = useState(false);
     const [isLoad, setIsLoad] = useState(false);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         checkInput();
@@ -23,17 +26,13 @@ const Form = ({ iName = "", iYear = "", iRgb = "", iPantone = "" } = {}) => {
 
     async function createColor() {
         setDisButton(true);
-        setDisInput(true);
         setIsLoad(true);
         const color = { name, year, rgb, pantone };
         const response = await ReqresApi.createResource(color);
         if (response === undefined) {
             setDisButton(false);
-            setDisInput(false);
             setIsLoad(false);
-        }
-        setIsLoad(false);
-        setDisButton(true);
+        } else setIsOpenFrom(false);
     }
 
     function onCreate() {
@@ -71,25 +70,25 @@ const Form = ({ iName = "", iYear = "", iRgb = "", iPantone = "" } = {}) => {
                 label="Name, e.g. blue"
                 value={name}
                 onChange={onInput(setName)}
-                disabled={disInput}
+                disabled={isLoad}
             />
             <Input
                 label="Year, e.g. 2023"
                 value={year}
                 onChange={onInput(setYear)}
-                disabled={disInput}
+                disabled={isLoad}
             />
             <Input
                 label="RGB, e.g. #ffffff"
                 value={rgb}
                 onChange={onInput(setRgb)}
-                disabled={disInput}
+                disabled={isLoad}
             />
             <Input
                 label="Pantone, e.g. 13-2123"
                 value={pantone}
                 onChange={onInput(setPantone)}
-                disabled={disInput}
+                disabled={isLoad}
             />
             <p className={styles.error}>{error}</p>
             <Button text="OK" onClick={onCreate} disabled={disButton} />

@@ -15,6 +15,7 @@ const Home = () => {
     const [page, setPage] = useState(1);
     const [totalPages, settotalPages] = useState(1);
     const [pagination, setPagination] = useState([{ n: 1, active: true }]);
+    const [isOpenForm, setIsOpenForm] = useState(false);
 
     useEffect(() => {
         fetchColors();
@@ -28,6 +29,10 @@ const Home = () => {
         const data = await ReqresApi.getResource(page, per_page);
         settotalPages(data.total_pages);
         setColors(data.data);
+    }
+
+    function openForm() {
+        setIsOpenForm(true);
     }
 
     function changePagination() {
@@ -57,7 +62,11 @@ const Home = () => {
             <div className={styles.home}>
                 <div className={styles.tools}>
                     <h1>{username}</h1>
-                    <Button text="Create" bgColor="#3699FF" />
+                    <Button
+                        text="Create"
+                        bgColor="#3699FF"
+                        onClick={openForm}
+                    />
                 </div>
                 <div className={styles["table-wrap"]}>
                     <table className={styles["table"]}>
@@ -141,7 +150,7 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <Form />
+            {isOpenForm ? <Form setIsOpenFrom={setIsOpenForm} /> : ""}
         </div>
     );
 };

@@ -7,6 +7,7 @@ const Loader = ({
     left = 0,
     color = "#3699ff",
     isActive = false,
+    center = false,
 }) => {
     return (
         <div
@@ -15,8 +16,8 @@ const Loader = ({
                 display: isActive ? "" : "none",
                 width: `${width}px`,
                 height: `${height}px`,
-                top: `${top}px`,
-                left: `${left}px`,
+                top: center ? `calc(50% - ${top / 2}px` : `${top}px`,
+                left: center ? `calc(50% - ${left / 2}px` : `${left}px`,
                 "--color-loader": color,
             }}
         >
