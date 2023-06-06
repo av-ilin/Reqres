@@ -92,6 +92,18 @@ const Form = ({
             />
             <p className={styles.error}>{error}</p>
             <Button text="OK" onClick={onCreate} disabled={disButton} />
+            <Button
+                text={<i className="fa fa-times"></i>}
+                width={24}
+                height={24}
+                disabled={isLoad}
+                dlcStyles={{
+                    position: "absolute",
+                    top: "-12px",
+                    right: "-12px",
+                }}
+                onClick={() => setIsOpenFrom(false)}
+            />
         </div>
     );
 };

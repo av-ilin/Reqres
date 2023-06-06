@@ -14,7 +14,7 @@ const Home = () => {
     const username = useSelector((state) => state.username);
     const [colors, setColors] = useState([]);
     const [page, setPage] = useState(1);
-    const [totalPages, settotalPages] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [pagination, setPagination] = useState([{ n: 1, active: true }]);
     const [isOpenForm, setIsOpenForm] = useState(false);
     const [isLoad, setIsLoad] = useState(false);
@@ -30,8 +30,10 @@ const Home = () => {
     async function fetchColors() {
         setIsLoad(true);
         const data = await ReqresApi.getResource(page, per_page);
-        settotalPages(data.total_pages);
-        setColors(data.data);
+        if (data !== undefined) {
+            setTotalPages(data.total_pages);
+            setColors(data.data);
+        }
         setIsLoad(false);
     }
 
@@ -112,6 +114,8 @@ const Home = () => {
                                             }
                                             bgColor="green"
                                             disabled={isLoad}
+                                            width={32}
+                                            height={24}
                                         />
                                         <Button
                                             text={
@@ -119,6 +123,8 @@ const Home = () => {
                                             }
                                             bgColor="red"
                                             disabled={isLoad}
+                                            width={32}
+                                            height={24}
                                         />
                                     </td>
                                 </tr>
