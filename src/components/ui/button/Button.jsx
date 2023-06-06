@@ -4,6 +4,7 @@ const Button = ({
     text = "Enter",
     bgColor = "black",
     textColor = "white",
+    disabled = false,
     onClick = () => {},
 }) => {
     return (
@@ -11,6 +12,7 @@ const Button = ({
             className={styles.button}
             onClick={onClick}
             style={{ backgroundColor: bgColor, color: textColor }}
+            disabled={disabled}
         >
             {text}
         </button>

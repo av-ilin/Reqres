@@ -14,4 +14,7 @@
     &:active {
         filter: contrast(5);
     }
+    &:disabled {
+        opacity: 0.5;
+    }
 }
