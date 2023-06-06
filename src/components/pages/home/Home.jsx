@@ -1,6 +1,7 @@
 import styles from "./Home.module.scss";
 
 import Button from "../../ui/button/Button";
+import Form from "./form/Form";
 
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -31,21 +32,15 @@ const Home = () => {
 
     function changePagination() {
         const pag = [];
-        let start, end;
-        switch (page) {
-            case 1:
-            case 2:
-                start = 1;
-                end = Math.min(start + 4, totalPages);
-                break;
-            case totalPages - 1:
-            case totalPages:
-                end = totalPages;
-                start = Math.max(totalPages - 4, 1);
-                break;
-            default:
-                start = page - 2;
-                end = page + 2;
+        let start = page - 2;
+        let end = page + 2;
+        if (page < 3) {
+            start = 1;
+            end = Math.min(start + 4, totalPages);
+        }
+        if (page > totalPages - 2) {
+            end = totalPages;
+            start = Math.max(totalPages - 4, 1);
         }
 
         for (let i = start; i <= end; i++)
@@ -116,7 +111,7 @@ const Home = () => {
                             setPage(1);
                         }}
                     >
-                        <i className="fa fa-chevron-left"></i>
+                        &#8701;
                     </div>
 
                     {pagination.map(({ n, active }) => (
@@ -142,10 +137,11 @@ const Home = () => {
                             setPage(totalPages);
                         }}
                     >
-                        <i className="fa fa-chevron-right"></i>
+                        &#8702;
                     </div>
                 </div>
             </div>
+            <Form />
         </div>
     );
 };

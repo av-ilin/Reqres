@@ -1,0 +1,35 @@
+.wrap {
+    position: relative;
+    padding-top: 13px;
+}
+
+.label {
+    z-index: -1;
+    position: absolute;
+    left: 5px;
+    top: calc(50% - 1.5px);
+    font-size: 15px;
+    transition: all 0.2s ease-in-out;
+    color: rgba(black, 0.5);
+}
+
+.input {
+    background-color: transparent;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 5px;
+    font-size: 16px;
+    font-family: inherit;
+    border-radius: 5px;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.input:focus + .label,
+.input:not(:placeholder-shown) + .label {
+    font-size: 11px;
+    top: 0;
+    color: black;
+}

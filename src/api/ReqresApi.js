@@ -7,8 +7,29 @@ class ReqresApi {
         url.searchParams.append("page", page);
         url.searchParams.append("per_page", per_page);
         const response = await fetch(url);
-        const data = response.json();
+        const data = await response.json();
         return data;
+    }
+
+    static async createResource({
+        name = "test",
+        year = "2023",
+        color = "#000000",
+        pantone_value = "06-2023",
+    } = {}) {
+        console.log(name);
+        const url = new URL(ReqresApi.path + ReqresApi.resource);
+        const response = await fetch(url, {
+            method: "post",
+            body: JSON.stringify({
+                name,
+                year,
+                color,
+                pantone_value,
+            }),
+        });
+        const answer = await response.json();
+        return answer;
     }
 }
 
