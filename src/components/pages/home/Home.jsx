@@ -8,16 +8,53 @@ import { useEffect } from "react";
 import ReqresApi from "../../../api/ReqresApi";
 
 const Home = () => {
+    const per_page = 10;
     const username = useSelector((state) => state.username);
     const [colors, setColors] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalPages, settotalPages] = useState(1);
+    const [pagination, setPagination] = useState([{ n: 1, active: true }]);
 
     useEffect(() => {
         fetchColors();
-    }, []);
+    }, [page]);
+
+    useEffect(() => {
+        changePagination();
+    }, [page, totalPages]);
 
     async function fetchColors() {
-        const data = await ReqresApi.getResource(1, 5);
+        const data = await ReqresApi.getResource(page, per_page);
+        settotalPages(data.total_pages);
         setColors(data.data);
+    }
+
+    function changePagination() {
+        const pag = [];
+        let start, end;
+        switch (page) {
+            case 1:
+            case 2:
+                start = 1;
+                end = Math.min(start + 4, totalPages);
+                break;
+            case totalPages - 1:
+            case totalPages:
+                end = totalPages;
+                start = Math.max(totalPages - 4, 1);
+                break;
+            default:
+                start = page - 2;
+                end = page + 2;
+        }
+
+        for (let i = start; i <= end; i++)
+            pag.push({
+                n: i,
+                active: i === page,
+            });
+
+        setPagination(pag);
     }
 
     return (
@@ -41,7 +78,7 @@ const Home = () => {
                         </thead>
                         <tbody>
                             {colors.map((color, i) => (
-                                <tr>
+                                <tr key={i}>
                                     <td>
                                         <div
                                             style={{
@@ -71,6 +108,42 @@ const Home = () => {
                             ))}
                         </tbody>
                     </table>
+                </div>
+                <div className={styles.pagination}>
+                    <div
+                        className={styles["pagination-item"]}
+                        onClick={() => {
+                            setPage(1);
+                        }}
+                    >
+                        <i className="fa fa-chevron-left"></i>
+                    </div>
+
+                    {pagination.map(({ n, active }) => (
+                        <div
+                            key={n}
+                            className={
+                                styles["pagination-item"] +
+                                (active
+                                    ? " " + styles["pagination-item--active"]
+                                    : "")
+                            }
+                            onClick={() => {
+                                setPage(n);
+                            }}
+                        >
+                            {n}
+                        </div>
+                    ))}
+
+                    <div
+                        className={styles["pagination-item"]}
+                        onClick={() => {
+                            setPage(totalPages);
+                        }}
+                    >
+                        <i className="fa fa-chevron-right"></i>
+                    </div>
                 </div>
             </div>
         </div>
