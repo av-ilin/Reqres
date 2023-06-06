@@ -2,6 +2,7 @@ import styles from "./Home.module.scss";
 
 import Button from "../../ui/button/Button";
 import Form from "./form/Form";
+import Loader from "../../ui/loader/Loader";
 
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -16,6 +17,7 @@ const Home = () => {
     const [totalPages, settotalPages] = useState(1);
     const [pagination, setPagination] = useState([{ n: 1, active: true }]);
     const [isOpenForm, setIsOpenForm] = useState(false);
+    const [isLoad, setIsLoad] = useState(false);
 
     useEffect(() => {
         fetchColors();
@@ -26,9 +28,11 @@ const Home = () => {
     }, [page, totalPages]);
 
     async function fetchColors() {
+        setIsLoad(true);
         const data = await ReqresApi.getResource(page, per_page);
         settotalPages(data.total_pages);
         setColors(data.data);
+        setIsLoad(false);
     }
 
     function openForm() {
@@ -59,6 +63,7 @@ const Home = () => {
 
     return (
         <div className={styles.container}>
+            <Loader width={64} height={64} center isActive={isLoad} />
             <div className={styles.home}>
                 <div className={styles.tools}>
                     <h1>{username}</h1>
@@ -66,9 +71,15 @@ const Home = () => {
                         text="Create"
                         bgColor="#3699FF"
                         onClick={openForm}
+                        disabled={isLoad}
                     />
                 </div>
-                <div className={styles["table-wrap"]}>
+                <div
+                    className={styles["table-wrap"]}
+                    style={{
+                        overflow: isLoad ? "hidden" : " ",
+                    }}
+                >
                     <table className={styles["table"]}>
                         <thead>
                             <tr>
@@ -100,12 +111,14 @@ const Home = () => {
                                                 <i className="fa fa-pencil"></i>
                                             }
                                             bgColor="green"
+                                            disabled={isLoad}
                                         />
                                         <Button
                                             text={
                                                 <i className="fa fa-trash"></i>
                                             }
                                             bgColor="red"
+                                            disabled={isLoad}
                                         />
                                     </td>
                                 </tr>
@@ -118,6 +131,9 @@ const Home = () => {
                         className={styles["pagination-item"]}
                         onClick={() => {
                             setPage(1);
+                        }}
+                        style={{
+                            pointerEvents: isLoad ? "none" : "",
                         }}
                     >
                         &#8701;
@@ -132,6 +148,9 @@ const Home = () => {
                                     ? " " + styles["pagination-item--active"]
                                     : "")
                             }
+                            style={{
+                                pointerEvents: isLoad ? "none" : "",
+                            }}
                             onClick={() => {
                                 setPage(n);
                             }}
@@ -144,6 +163,9 @@ const Home = () => {
                         className={styles["pagination-item"]}
                         onClick={() => {
                             setPage(totalPages);
+                        }}
+                        style={{
+                            pointerEvents: isLoad ? "none" : "",
                         }}
                     >
                         &#8702;

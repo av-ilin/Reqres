@@ -16,8 +16,8 @@ const Loader = ({
                 display: isActive ? "" : "none",
                 width: `${width}px`,
                 height: `${height}px`,
-                top: center ? `calc(50% - ${top / 2}px` : `${top}px`,
-                left: center ? `calc(50% - ${left / 2}px` : `${left}px`,
+                top: center ? `calc(50% - ${height / 2}px)` : `${top}px`,
+                left: center ? `calc(50% - ${width / 2}px)` : `${left}px`,
                 "--color-loader": color,
             }}
         >
