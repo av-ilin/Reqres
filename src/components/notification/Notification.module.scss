@@ -5,15 +5,24 @@
     text-align: center;
     width: 100%;
     border-radius: 10px;
-    animation: notice-appear 1s ease-in-out;
+    animation: notice-in 0.5s ease;
 }
 
-@keyframes notice-appear {
+@keyframes notice-in {
     0% {
         transform: translateX(110%);
     }
-    50% {
+    100% {
         transform: translateX(0);
+    }
+}
+
+@keyframes notice-out {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(110%);
     }
 }
 
