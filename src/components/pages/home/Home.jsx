@@ -5,13 +5,15 @@ import Form from "./form/Form";
 import Loader from "../../ui/loader/Loader";
 
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import ReqresApi from "../../../api/ReqresApi";
 
 const Home = () => {
     const per_page = 10;
     const username = useSelector((state) => state.username);
+    const dispatch = useDispatch();
+
     const [colors, setColors] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -30,21 +32,26 @@ const Home = () => {
 
     async function fetchColors() {
         setIsLoad(true);
-        const data = await ReqresApi.getResource(page, per_page);
+        const { response: data, message } = await ReqresApi.getResource(
+            page,
+            per_page
+        );
         if (data !== undefined) {
             setTotalPages(data.total_pages);
             setColors(data.data);
+            dispatch({ type: "ADD_NOTICE", payload: message });
         }
         setIsLoad(false);
     }
 
     async function deleteColor(i) {
         setIsLoad(true);
-        const response = await ReqresApi.delResource(colors[i].id);
+        const { response, message } = await ReqresApi.delResource(colors[i].id);
         if (response !== undefined) {
             const newColors = Object.assign([], colors);
             newColors.splice(i, 1);
             setColors(newColors);
+            dispatch({ type: "ADD_NOTICE", payload: message });
         }
         setIsLoad(false);
     }

@@ -4,6 +4,7 @@ import Input from "../../../ui/input/Input";
 import Button from "../../../ui/button/Button";
 
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import ReqresApi from "../../../../api/ReqresApi";
 import Loader from "../../../ui/loader/Loader";
 
@@ -31,6 +32,7 @@ const Form = ({
     const [disButton, setDisButton] = useState(true);
     const [isLoad, setIsLoad] = useState(false);
     const [error, setError] = useState("");
+    const dispatch = useDispatch();
 
     useEffect(() => {
         checkInput();
@@ -39,13 +41,15 @@ const Form = ({
     async function createColor() {
         setIsLoad(true);
         const color = { name, year, color: rgb, pantone_value: pantone };
-        const response = await ReqresApi.createResource(color);
+
+        const { response, message } = await ReqresApi.createResource(color);
         if (response === undefined) setIsLoad(false);
         else {
             const newColors = Object.assign([], colors);
             newColors.push({ id: response.id, ...color });
             setColors(newColors);
             setIsOpenFrom(false);
+            dispatch({ type: "ADD_NOTICE", payload: message });
         }
     }
 
@@ -56,8 +60,11 @@ const Form = ({
         if (year !== init.year) color.year = year;
         if (rgb !== init.color) color.color = rgb;
         if (pantone !== init.pantone_value) color.pantone_value = pantone;
-        const response = await ReqresApi.updResource(init.id, color);
 
+        const { response, message } = await ReqresApi.updResource(
+            init.id,
+            color
+        );
         if (response === undefined) setIsLoad(false);
         else {
             const newColors = Object.assign([], colors);
@@ -65,6 +72,7 @@ const Form = ({
             setIsOpenFrom(false);
             setFormInitColor(undefined);
             setColors(newColors);
+            dispatch({ type: "ADD_NOTICE", payload: message });
         }
     }
 

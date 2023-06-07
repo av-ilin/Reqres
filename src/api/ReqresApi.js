@@ -16,18 +16,19 @@ class ReqresApi {
         url.searchParams.append("page", page);
         url.searchParams.append("per_page", per_page);
 
-        let answer;
+        let answer, message;
         try {
             const start = Date.now();
             const response = await fetch(url);
             answer = await response.json();
             const end = Date.now();
-            this.FYI(`Данные получены за ${(end - start) / 1000} сек.`);
+            message = `Данные получены за ${(end - start) / 1000} сек.`;
         } catch (err) {
             answer = undefined;
-            this.FYI(`Ошибка получения данных: ${err}`);
+            message = `Ошибка получения данных: ${err}`;
         }
-        return answer;
+        this.FYI(message);
+        return { response: answer, message };
     }
 
     static async createResource({ name, year, color, pantone_value } = {}) {
@@ -35,7 +36,7 @@ class ReqresApi {
         if (this.delay.active)
             url.searchParams.append("delay", this.delay.duration);
 
-        let answer;
+        let answer, message;
         try {
             const response = await fetch(url, {
                 method: "POST",
@@ -47,12 +48,13 @@ class ReqresApi {
                 }),
             });
             answer = await response.json();
-            this.FYI(`Данные сохранены. ID: ${answer.id}`);
+            message = `Данные сохранены. ID: ${answer.id}`;
         } catch (err) {
             answer = undefined;
-            this.FYI(`Ошибка сохранения данных: ${err}`);
+            message = `Ошибка сохранения данных: ${err}`;
         }
-        return answer;
+        this.FYI(message);
+        return { response: answer, message };
     }
 
     static async updResource(id, { name, year, color, pantone_value } = {}) {
@@ -60,7 +62,7 @@ class ReqresApi {
         if (this.delay.active)
             url.searchParams.append("delay", this.delay.duration);
 
-        let answer;
+        let answer, message;
         try {
             const response = await fetch(url, {
                 method: "PATCH",
@@ -72,12 +74,13 @@ class ReqresApi {
                 }),
             });
             answer = await response.json();
-            this.FYI(`Данные обновлены.`);
+            message = `Данные обновлены.`;
         } catch (err) {
             answer = undefined;
-            this.FYI(`Ошибка обновления данных: ${err}`);
+            message = `Ошибка обновления данных: ${err}`;
         }
-        return answer;
+        this.FYI(message);
+        return { response: answer, message };
     }
 
     static async delResource(id) {
@@ -85,18 +88,19 @@ class ReqresApi {
         if (this.delay.active)
             url.searchParams.append("delay", this.delay.duration);
 
-        let answer;
+        let answer, message;
         try {
             const response = await fetch(url, {
                 method: "DELETE",
             });
             answer = response.status;
-            this.FYI(`Данные удалены.`);
+            message = `Данные удалены.`;
         } catch (err) {
             answer = undefined;
-            this.FYI(`Ошибка удаления данных: ${err}`);
+            message = `Ошибка удаления данных: ${err}`;
         }
-        return answer;
+        this.FYI(message);
+        return { response: answer, message };
     }
 }
 
