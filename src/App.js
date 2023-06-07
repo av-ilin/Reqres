@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 const defaultState = {
     token: "",
     username: "",
+    id_notice: 0,
     notifications: [],
 };
 const reducer = (state = defaultState, action) => {
@@ -16,7 +17,18 @@ const reducer = (state = defaultState, action) => {
         case "ADD_NOTICE":
             return {
                 ...state,
-                notifications: [...state.notifications, action.payload],
+                id_notice: state.id_notice + 1,
+                notifications: [
+                    ...state.notifications,
+                    { id: state.id_notice, message: action.payload },
+                ],
+            };
+        case "REMOVE_NOTICE":
+            return {
+                ...state,
+                notifications: state.notifications.filter(
+                    (notice) => notice.id !== action.payload
+                ),
             };
         default:
             return state;
