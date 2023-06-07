@@ -19,7 +19,6 @@ const Button = ({
                 color: textColor,
                 width: `${width}px`,
                 height: `${height}px`,
-
                 ...dlcStyles,
             }}
             disabled={disabled}

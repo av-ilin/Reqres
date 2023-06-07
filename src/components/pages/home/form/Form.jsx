@@ -9,13 +9,25 @@ import Loader from "../../../ui/loader/Loader";
 
 const Form = ({
     setIsOpenFrom,
-    upd = false,
-    init = { id: undefined, name: "", year: "", rgb: "", pantone: "" },
+    setFormInitColor,
+    setColors,
+    colors,
+    iColor = undefined,
 } = {}) => {
+    const init =
+        iColor === undefined
+            ? {
+                  id: undefined,
+                  name: "",
+                  year: "",
+                  color: "",
+                  pantone_value: "",
+              }
+            : colors[iColor];
     const [name, setName] = useState(init.name);
     const [year, setYear] = useState(init.year);
-    const [rgb, setRgb] = useState(init.rgb);
-    const [pantone, setPantone] = useState(init.pantone);
+    const [rgb, setRgb] = useState(init.color);
+    const [pantone, setPantone] = useState(init.pantone_value);
     const [disButton, setDisButton] = useState(true);
     const [isLoad, setIsLoad] = useState(false);
     const [error, setError] = useState("");
@@ -25,19 +37,41 @@ const Form = ({
     }, [name, year, rgb, pantone]);
 
     async function createColor() {
-        setDisButton(true);
         setIsLoad(true);
-        const color = { name, year, rgb, pantone };
+        const color = { name, year, color: rgb, pantone_value: pantone };
         const response = await ReqresApi.createResource(color);
-        if (response === undefined) {
-            setDisButton(false);
-            setIsLoad(false);
-        } else setIsOpenFrom(false);
+        if (response === undefined) setIsLoad(false);
+        else {
+            const newColors = Object.assign([], colors);
+            newColors.push({ id: response.id, ...color });
+            setColors(newColors);
+            setIsOpenFrom(false);
+        }
+    }
+
+    async function updateColor() {
+        setIsLoad(true);
+        const color = {};
+        if (name !== init.name) color.name = name;
+        if (year !== init.year) color.year = year;
+        if (rgb !== init.color) color.color = rgb;
+        if (pantone !== init.pantone_value) color.pantone_value = pantone;
+        const response = await ReqresApi.updResource(init.id, color);
+
+        if (response === undefined) setIsLoad(false);
+        else {
+            const newColors = Object.assign([], colors);
+            newColors[iColor] = { ...newColors[iColor], ...color };
+            setIsOpenFrom(false);
+            setFormInitColor(undefined);
+            setColors(newColors);
+        }
     }
 
     function onCreate() {
         if (!checkInput()) return;
-        createColor();
+        if (init.id === undefined) createColor();
+        else updateColor();
     }
 
     function checkInput() {
@@ -91,7 +125,11 @@ const Form = ({
                 disabled={isLoad}
             />
             <p className={styles.error}>{error}</p>
-            <Button text="OK" onClick={onCreate} disabled={disButton} />
+            <Button
+                text="OK"
+                onClick={onCreate}
+                disabled={disButton || isLoad}
+            />
             <Button
                 text={<i className="fa fa-times"></i>}
                 width={24}

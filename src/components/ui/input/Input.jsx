@@ -12,7 +12,7 @@ const Input = ({
                 type="text"
                 className={styles.input}
                 placeholder=" "
-                // value={value}
+                value={value}
                 onChange={onChange}
                 disabled={disabled}
             />

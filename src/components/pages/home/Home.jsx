@@ -17,6 +17,7 @@ const Home = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [pagination, setPagination] = useState([{ n: 1, active: true }]);
     const [isOpenForm, setIsOpenForm] = useState(false);
+    const [formInitColor, setFormInitColor] = useState(undefined);
     const [isLoad, setIsLoad] = useState(false);
 
     useEffect(() => {
@@ -37,8 +38,15 @@ const Home = () => {
         setIsLoad(false);
     }
 
-    function openForm() {
-        setIsOpenForm(true);
+    async function deleteColor(i) {
+        setIsLoad(true);
+        const response = await ReqresApi.delResource(colors[i].id);
+        if (response !== undefined) {
+            const newColors = Object.assign([], colors);
+            newColors.splice(i, 1);
+            setColors(newColors);
+        }
+        setIsLoad(false);
     }
 
     function changePagination() {
@@ -72,8 +80,8 @@ const Home = () => {
                     <Button
                         text="Create"
                         bgColor="#3699FF"
-                        onClick={openForm}
-                        disabled={isLoad}
+                        onClick={() => setIsOpenForm(true)}
+                        disabled={isLoad || isOpenForm}
                     />
                 </div>
                 <div
@@ -95,7 +103,7 @@ const Home = () => {
                         </thead>
                         <tbody>
                             {colors.map((color, i) => (
-                                <tr key={i}>
+                                <tr key={color.id}>
                                     <td>
                                         <div
                                             style={{
@@ -113,18 +121,23 @@ const Home = () => {
                                                 <i className="fa fa-pencil"></i>
                                             }
                                             bgColor="green"
-                                            disabled={isLoad}
+                                            disabled={isLoad || isOpenForm}
                                             width={32}
                                             height={24}
+                                            onClick={() => {
+                                                setFormInitColor(i);
+                                                setIsOpenForm(true);
+                                            }}
                                         />
                                         <Button
                                             text={
                                                 <i className="fa fa-trash"></i>
                                             }
                                             bgColor="red"
-                                            disabled={isLoad}
+                                            disabled={isLoad || isOpenForm}
                                             width={32}
                                             height={24}
+                                            onClick={() => deleteColor(i)}
                                         />
                                     </td>
                                 </tr>
@@ -139,7 +152,7 @@ const Home = () => {
                             setPage(1);
                         }}
                         style={{
-                            pointerEvents: isLoad ? "none" : "",
+                            pointerEvents: isLoad || isOpenForm ? "none" : "",
                         }}
                     >
                         &#8701;
@@ -155,7 +168,8 @@ const Home = () => {
                                     : "")
                             }
                             style={{
-                                pointerEvents: isLoad ? "none" : "",
+                                pointerEvents:
+                                    isLoad || isOpenForm ? "none" : "",
                             }}
                             onClick={() => {
                                 setPage(n);
@@ -171,14 +185,24 @@ const Home = () => {
                             setPage(totalPages);
                         }}
                         style={{
-                            pointerEvents: isLoad ? "none" : "",
+                            pointerEvents: isLoad || isOpenForm ? "none" : "",
                         }}
                     >
                         &#8702;
                     </div>
                 </div>
             </div>
-            {isOpenForm ? <Form setIsOpenFrom={setIsOpenForm} /> : ""}
+            {isOpenForm ? (
+                <Form
+                    setIsOpenFrom={setIsOpenForm}
+                    setFormInitColor={setFormInitColor}
+                    setColors={setColors}
+                    colors={colors}
+                    iColor={formInitColor}
+                />
+            ) : (
+                ""
+            )}
         </div>
     );
 };

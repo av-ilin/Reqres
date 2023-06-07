@@ -2,6 +2,7 @@ class ReqresApi {
     static path = "https://reqres.in/api/";
     static resource = "unknown";
     static alerts = true;
+    static cors = "https://cors-anywhere.herokuapp.com/";
 
     static FYI(message) {
         console.log(message);
@@ -27,17 +28,12 @@ class ReqresApi {
         return answer;
     }
 
-    static async createResource({
-        name = "test",
-        year = "2023",
-        color = "#000000",
-        pantone_value = "06-2023",
-    } = {}) {
+    static async createResource({ name, year, color, pantone_value } = {}) {
         const url = new URL(ReqresApi.path + ReqresApi.resource);
         let answer;
         try {
             const response = await fetch(url, {
-                method: "post",
+                method: "POST",
                 body: JSON.stringify({
                     name,
                     year,
@@ -50,6 +46,44 @@ class ReqresApi {
         } catch (err) {
             answer = undefined;
             this.FYI(`Ошибка сохранения данных: ${err}`);
+        }
+        return answer;
+    }
+
+    static async updResource(id, { name, year, color, pantone_value } = {}) {
+        const url = new URL(ReqresApi.path + ReqresApi.resource + `/${id}`);
+        let answer;
+        try {
+            const response = await fetch(url, {
+                method: "PATCH",
+                body: JSON.stringify({
+                    name,
+                    year,
+                    color,
+                    pantone_value,
+                }),
+            });
+            answer = await response.json();
+            this.FYI(`Данные обновлены.`);
+        } catch (err) {
+            answer = undefined;
+            this.FYI(`Ошибка обновления данных: ${err}`);
+        }
+        return answer;
+    }
+
+    static async delResource(id) {
+        const url = new URL(ReqresApi.path + ReqresApi.resource + `/${id}`);
+        let answer;
+        try {
+            const response = await fetch(url, {
+                method: "DELETE",
+            });
+            answer = response.status;
+            this.FYI(`Данные удалены.`);
+        } catch (err) {
+            answer = undefined;
+            this.FYI(`Ошибка удаления данных: ${err}`);
         }
         return answer;
     }
