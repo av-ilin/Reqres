@@ -49,8 +49,8 @@ const Form = ({
             newColors.push({ id: response.id, ...color });
             setColors(newColors);
             setIsOpenFrom(false);
-            dispatch({ type: "ADD_NOTICE", payload: message });
         }
+        dispatch({ type: "ADD_NOTICE", payload: message });
     }
 
     async function updateColor() {
@@ -72,8 +72,8 @@ const Form = ({
             setIsOpenFrom(false);
             setFormInitColor(undefined);
             setColors(newColors);
-            dispatch({ type: "ADD_NOTICE", payload: message });
         }
+        dispatch({ type: "ADD_NOTICE", payload: message });
     }
 
     function onClose() {

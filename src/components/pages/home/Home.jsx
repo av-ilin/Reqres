@@ -39,8 +39,8 @@ const Home = () => {
         if (data !== undefined) {
             setTotalPages(data.total_pages);
             setColors(data.data);
-            dispatch({ type: "ADD_NOTICE", payload: message });
         }
+        dispatch({ type: "ADD_NOTICE", payload: message });
         setIsLoad(false);
     }
 
@@ -51,8 +51,8 @@ const Home = () => {
             const newColors = Object.assign([], colors);
             newColors.splice(i, 1);
             setColors(newColors);
-            dispatch({ type: "ADD_NOTICE", payload: message });
         }
+        dispatch({ type: "ADD_NOTICE", payload: message });
         setIsLoad(false);
     }
 

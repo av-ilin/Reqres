@@ -10,7 +10,7 @@ const NotificationAPI = () => {
         console.log(notifications);
     }, [notifications]);
 
-    return <Notification />;
+    return <Notification text={notifications[0]} />;
 };
 
 export default NotificationAPI;
