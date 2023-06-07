@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 
 const NotificationAPI = () => {
     const notifications = useSelector((state) => state.notifications);
-    console.log(notifications);
     const dispatch = useDispatch();
 
     useEffect(() => {
