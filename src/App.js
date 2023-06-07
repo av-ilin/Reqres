@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 const defaultState = {
     token: "",
     username: "",
+    notifications: [],
 };
 const reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -12,6 +13,11 @@ const reducer = (state = defaultState, action) => {
             return { ...state, token: action.payload };
         case "SET_USERNAME":
             return { ...state, username: action.payload };
+        case "ADD_NOTICE":
+            return {
+                ...state,
+                notifications: [...state.notifications, action.payload],
+            };
         default:
             return state;
     }
