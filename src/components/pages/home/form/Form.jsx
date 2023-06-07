@@ -68,6 +68,11 @@ const Form = ({
         }
     }
 
+    function onClose() {
+        setIsOpenFrom(false);
+        setFormInitColor(undefined);
+    }
+
     function onCreate() {
         if (!checkInput()) return;
         if (init.id === undefined) createColor();
@@ -140,7 +145,7 @@ const Form = ({
                     top: "-12px",
                     right: "-12px",
                 }}
-                onClick={() => setIsOpenFrom(false)}
+                onClick={onClose}
             />
         </div>
     );

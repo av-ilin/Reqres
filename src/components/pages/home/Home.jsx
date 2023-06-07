@@ -74,14 +74,20 @@ const Home = () => {
     return (
         <div className={styles.container}>
             <Loader width={64} height={64} center isActive={isLoad} />
-            <div className={styles.home}>
+            <div
+                className={styles.home}
+                style={{
+                    filter: isOpenForm ? "blur(5px)" : "",
+                    pointerEvents: isLoad || isOpenForm ? "none" : "",
+                }}
+            >
                 <div className={styles.tools}>
                     <h1>{username}</h1>
                     <Button
                         text="Create"
                         bgColor="#3699FF"
                         onClick={() => setIsOpenForm(true)}
-                        disabled={isLoad || isOpenForm}
+                        disabled={isLoad}
                     />
                 </div>
                 <div
@@ -121,7 +127,7 @@ const Home = () => {
                                                 <i className="fa fa-pencil"></i>
                                             }
                                             bgColor="green"
-                                            disabled={isLoad || isOpenForm}
+                                            disabled={isLoad}
                                             width={32}
                                             height={24}
                                             onClick={() => {
@@ -134,7 +140,7 @@ const Home = () => {
                                                 <i className="fa fa-trash"></i>
                                             }
                                             bgColor="red"
-                                            disabled={isLoad || isOpenForm}
+                                            disabled={isLoad}
                                             width={32}
                                             height={24}
                                             onClick={() => deleteColor(i)}
@@ -148,12 +154,7 @@ const Home = () => {
                 <div className={styles.pagination}>
                     <div
                         className={styles["pagination-item"]}
-                        onClick={() => {
-                            setPage(1);
-                        }}
-                        style={{
-                            pointerEvents: isLoad || isOpenForm ? "none" : "",
-                        }}
+                        onClick={() => setPage(1)}
                     >
                         &#8701;
                     </div>
@@ -167,13 +168,7 @@ const Home = () => {
                                     ? " " + styles["pagination-item--active"]
                                     : "")
                             }
-                            style={{
-                                pointerEvents:
-                                    isLoad || isOpenForm ? "none" : "",
-                            }}
-                            onClick={() => {
-                                setPage(n);
-                            }}
+                            onClick={() => setPage(n)}
                         >
                             {n}
                         </div>
@@ -181,12 +176,7 @@ const Home = () => {
 
                     <div
                         className={styles["pagination-item"]}
-                        onClick={() => {
-                            setPage(totalPages);
-                        }}
-                        style={{
-                            pointerEvents: isLoad || isOpenForm ? "none" : "",
-                        }}
+                        onClick={() => setPage(totalPages)}
                     >
                         &#8702;
                     </div>

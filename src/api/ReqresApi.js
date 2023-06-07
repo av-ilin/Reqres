@@ -11,10 +11,10 @@ class ReqresApi {
 
     static async getResource(page = 1, per_page = 10) {
         const url = new URL(ReqresApi.path + ReqresApi.resource);
-        url.searchParams.append("page", page);
-        url.searchParams.append("per_page", per_page);
         if (this.delay.active)
             url.searchParams.append("delay", this.delay.duration);
+        url.searchParams.append("page", page);
+        url.searchParams.append("per_page", per_page);
 
         let answer;
         try {
