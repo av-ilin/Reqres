@@ -1,8 +1,8 @@
 class ReqresApi {
     static path = "https://reqres.in/api/";
     static resource = "unknown";
-    static alerts = true;
-    static cors = "https://cors-anywhere.herokuapp.com/";
+    static alerts = false;
+    static delay = { active: true, duration: 0.5 };
 
     static FYI(message) {
         console.log(message);
@@ -13,6 +13,8 @@ class ReqresApi {
         const url = new URL(ReqresApi.path + ReqresApi.resource);
         url.searchParams.append("page", page);
         url.searchParams.append("per_page", per_page);
+        if (this.delay.active)
+            url.searchParams.append("delay", this.delay.duration);
 
         let answer;
         try {
@@ -30,6 +32,9 @@ class ReqresApi {
 
     static async createResource({ name, year, color, pantone_value } = {}) {
         const url = new URL(ReqresApi.path + ReqresApi.resource);
+        if (this.delay.active)
+            url.searchParams.append("delay", this.delay.duration);
+
         let answer;
         try {
             const response = await fetch(url, {
@@ -52,6 +57,9 @@ class ReqresApi {
 
     static async updResource(id, { name, year, color, pantone_value } = {}) {
         const url = new URL(ReqresApi.path + ReqresApi.resource + `/${id}`);
+        if (this.delay.active)
+            url.searchParams.append("delay", this.delay.duration);
+
         let answer;
         try {
             const response = await fetch(url, {
@@ -74,6 +82,9 @@ class ReqresApi {
 
     static async delResource(id) {
         const url = new URL(ReqresApi.path + ReqresApi.resource + `/${id}`);
+        if (this.delay.active)
+            url.searchParams.append("delay", this.delay.duration);
+
         let answer;
         try {
             const response = await fetch(url, {
