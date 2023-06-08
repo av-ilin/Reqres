@@ -47,7 +47,7 @@ const Form = ({
             const newColors = Object.assign([], colors);
             newColors.push({ id: response.id, ...color });
             setColors(newColors);
-            setIsOpenFrom(false);
+            onClose();
         }
         dispatch({ type: "ADD_NOTICE", payload: message });
         setIsLoad(false);
@@ -65,12 +65,11 @@ const Form = ({
             init.id,
             color
         );
-        if (response === undefined) {
+        if (response !== undefined) {
             const newColors = Object.assign([], colors);
             newColors[iColor] = { ...newColors[iColor], ...color };
-            setIsOpenFrom(false);
-            setFormInitColor(undefined);
             setColors(newColors);
+            onClose();
         }
         dispatch({ type: "ADD_NOTICE", payload: message });
         setIsLoad(false);

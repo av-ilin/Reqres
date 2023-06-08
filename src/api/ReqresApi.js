@@ -41,6 +41,10 @@ class ReqresApi {
         try {
             const response = await fetch(url, {
                 method: "POST",
+                headers: {
+                    accept: "application/json",
+                    "Content-Type": "application/json",
+                },
                 body: JSON.stringify({
                     name,
                     year,
@@ -49,6 +53,7 @@ class ReqresApi {
                 }),
             });
             answer = await response.json();
+            if (!response.ok) throw new Error(answer.error);
             message = `Данные сохранены. ID: ${answer.id}`;
         } catch (err) {
             answer = undefined;
@@ -77,7 +82,10 @@ class ReqresApi {
                     pantone_value,
                 }),
             });
-            if (!response.ok) throw new Error("unknown");
+            if (!response.ok) {
+                answer = await response.json();
+                throw new Error(answer.error);
+            }
             answer = response.status;
             message = `Данные обновлены.`;
         } catch (err) {
@@ -97,7 +105,14 @@ class ReqresApi {
         try {
             const response = await fetch(url, {
                 method: "DELETE",
+                headers: {
+                    accept: "*/*",
+                },
             });
+            if (!response.ok) {
+                answer = await response.json();
+                throw new Error(answer.error);
+            }
             answer = response.status;
             message = `Данные удалены.`;
         } catch (err) {
@@ -134,7 +149,7 @@ class ReqresApi {
             message = `Ошибка при входе: ${err.message}`;
         }
         this.FYI(message);
-        return { answer, message };
+        return { response: answer, message };
     }
 }
 

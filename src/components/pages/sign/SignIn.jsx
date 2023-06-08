@@ -27,7 +27,7 @@ const SignIn = () => {
     async function login() {
         setIsLoad(true);
         const user = { email, password };
-        const { answer: response, message } = await ReqresApi.signIn(user);
+        const { response, message } = await ReqresApi.signIn(user);
         console.log("Token", response);
         if (response !== undefined) {
             dispatch({ type: "SET_TOKEN", payload: response.token });
