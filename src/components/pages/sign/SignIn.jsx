@@ -31,6 +31,7 @@ const SignIn = () => {
         console.log("Token", response);
         if (response !== undefined) {
             dispatch({ type: "SET_TOKEN", payload: response.token });
+            dispatch({ type: "SET_USERNAME", payload: email });
             navigate("/");
         }
         dispatch({ type: "ADD_NOTICE", payload: message });
