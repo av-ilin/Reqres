@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import ReqresApi from "../../../api/ReqresApi";
 
 const Home = () => {
-    const per_page = 8;
+    const per_page = 10;
     const username = useSelector((state) => state.username);
     const dispatch = useDispatch();
 
