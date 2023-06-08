@@ -28,7 +28,6 @@ const SignIn = () => {
         setIsLoad(true);
         const user = { email, password };
         const { response, message } = await ReqresApi.signIn(user);
-        console.log("Token", response);
         if (response !== undefined) {
             dispatch({ type: "SET_TOKEN", payload: response.token });
             dispatch({ type: "SET_USERNAME", payload: email });
@@ -46,9 +45,9 @@ const SignIn = () => {
     function validInput() {
         setError("");
         let err = "";
+        if (!/.{8}/.test(password)) err = "Invalid Password!";
         if (!/^[\w-\.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(email))
             err = "Invalid Email!";
-        if (!/.{8}/.test(password)) err = "Invalid Password!";
 
         if (err) {
             setError(err);
@@ -64,7 +63,12 @@ const SignIn = () => {
 
     return (
         <div className={styles.wrap}>
-            <div className={styles.sign + " " + styles.in}>
+            <div
+                className={styles.sign + " " + styles.in}
+                style={{
+                    pointerEvents: isLoad ? "none" : "",
+                }}
+            >
                 <Loader
                     width={30}
                     height={30}

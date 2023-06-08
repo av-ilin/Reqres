@@ -2,6 +2,7 @@ class ReqresApi {
     static path = "https://reqres.in/api";
     static resource = "/unknown";
     static login = "/login";
+    static register = "/register";
     static alerts = false;
     static delay = { active: true, duration: 0.5 };
 
@@ -152,6 +153,35 @@ class ReqresApi {
         } catch (err) {
             answer = undefined;
             message = `Ошибка при входе: ${err.message}`;
+        }
+        this.FYI(message);
+        return { response: answer, message };
+    }
+
+    static async signUp({ email, password }) {
+        const url = new URL(ReqresApi.path + ReqresApi.register);
+        if (this.delay.active)
+            url.searchParams.append("delay", this.delay.duration);
+
+        let answer, message;
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                }),
+            });
+            answer = await response.json();
+            if (!response.ok) throw new Error(answer.error);
+            message = `Регистрация произошла успешно.`;
+        } catch (err) {
+            answer = undefined;
+            message = `Ошибка регистрации: ${err.message}`;
         }
         this.FYI(message);
         return { response: answer, message };
