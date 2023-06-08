@@ -44,8 +44,7 @@ const Form = ({
 
         const { response, message } = await ReqresApi.createResource(color);
         if (response !== undefined) {
-            const newColors = Object.assign([], colors);
-            newColors.push({ id: response.id, ...color });
+            const newColors = [{ id: response.id, ...color }, ...colors];
             setColors(newColors);
             onClose();
         }
@@ -67,7 +66,7 @@ const Form = ({
         );
         if (response !== undefined) {
             const newColors = Object.assign([], colors);
-            newColors[iColor] = { ...newColors[iColor], ...color };
+            newColors[iColor] = Object.assign(newColors[iColor], color);
             setColors(newColors);
             onClose();
         }
