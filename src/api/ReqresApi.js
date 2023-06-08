@@ -1,6 +1,7 @@
 class ReqresApi {
-    static path = "https://reqres.in/api/";
-    static resource = "unknown";
+    static path = "https://reqres.in/api";
+    static resource = "/unknown";
+    static login = "/login";
     static alerts = false;
     static delay = { active: true, duration: 0.5 };
 
@@ -66,6 +67,9 @@ class ReqresApi {
         try {
             const response = await fetch(url, {
                 method: "PATCH",
+                headers: {
+                    accept: "application/json",
+                },
                 body: JSON.stringify({
                     name,
                     year,
@@ -73,7 +77,8 @@ class ReqresApi {
                     pantone_value,
                 }),
             });
-            answer = await response.json();
+            if (!response.ok) throw new Error("unknown");
+            answer = response.status;
             message = `Данные обновлены.`;
         } catch (err) {
             answer = undefined;
@@ -101,6 +106,35 @@ class ReqresApi {
         }
         this.FYI(message);
         return { response: answer, message };
+    }
+
+    static async signIn({ email, password }) {
+        const url = new URL(ReqresApi.path + ReqresApi.login);
+        if (this.delay.active)
+            url.searchParams.append("delay", this.delay.duration);
+
+        let answer, message;
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                }),
+            });
+            answer = await response.json();
+            if (!response.ok) throw new Error(answer.error);
+            message = `Вход произошел успешно.`;
+        } catch (err) {
+            answer = undefined;
+            message = `Ошибка при входе: ${err.message}`;
+        }
+        this.FYI(message);
+        return { answer, message };
     }
 }
 

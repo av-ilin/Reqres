@@ -43,14 +43,14 @@ const Form = ({
         const color = { name, year, color: rgb, pantone_value: pantone };
 
         const { response, message } = await ReqresApi.createResource(color);
-        if (response === undefined) setIsLoad(false);
-        else {
+        if (response !== undefined) {
             const newColors = Object.assign([], colors);
             newColors.push({ id: response.id, ...color });
             setColors(newColors);
             setIsOpenFrom(false);
         }
         dispatch({ type: "ADD_NOTICE", payload: message });
+        setIsLoad(false);
     }
 
     async function updateColor() {
@@ -65,8 +65,7 @@ const Form = ({
             init.id,
             color
         );
-        if (response === undefined) setIsLoad(false);
-        else {
+        if (response === undefined) {
             const newColors = Object.assign([], colors);
             newColors[iColor] = { ...newColors[iColor], ...color };
             setIsOpenFrom(false);
@@ -74,6 +73,7 @@ const Form = ({
             setColors(newColors);
         }
         dispatch({ type: "ADD_NOTICE", payload: message });
+        setIsLoad(false);
     }
 
     function onClose() {
