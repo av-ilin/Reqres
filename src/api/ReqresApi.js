@@ -20,9 +20,14 @@ class ReqresApi {
         let answer, message;
         try {
             const start = Date.now();
-            const response = await fetch(url);
-            answer = await response.json();
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    accept: "application/json",
+                },
+            });
             const end = Date.now();
+            answer = await response.json();
             message = `Данные получены за ${(end - start) / 1000} сек.`;
         } catch (err) {
             answer = undefined;
