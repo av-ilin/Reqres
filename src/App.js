@@ -1,18 +1,29 @@
 import Router from "./components/router/Router";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
+import CookieAPI from "./api/CookieApi";
+
+console.log(document.cookie);
 
 const defaultState = {
-    token: "",
-    username: "",
+    token: CookieAPI.getCookie("token"),
+    username: CookieAPI.getCookie("username"),
     id_notice: 0,
     notifications: [],
 };
 const reducer = (state = defaultState, action) => {
     switch (action.type) {
         case "SET_TOKEN":
+            CookieAPI.setCookie("token", action.payload, {
+                secure: true,
+                "max-age": 1800,
+            });
             return { ...state, token: action.payload };
         case "SET_USERNAME":
+            CookieAPI.setCookie("username", action.payload, {
+                secure: true,
+                "max-age": 1800,
+            });
             return { ...state, username: action.payload };
         case "ADD_NOTICE":
             return {
