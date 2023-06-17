@@ -1,5 +1,10 @@
 # Reqres
 
+## User
+
+email: eve.holt@reqres.in
+password: `any password`
+
 ## Available Scripts
 
 In the project directory, you can run:
