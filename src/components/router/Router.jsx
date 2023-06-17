@@ -7,7 +7,7 @@ import RequireAuth from "../require-auth/RequireAuth";
 import NotificationAPI from "../notification/NotificationAPI";
 
 const Router = () => {
-    // const basename = "/projects/BefaArt/";
+    // const basename = "/projects/Reqres/";
     const basename = "";
     return (
         <BrowserRouter basename={basename}>
