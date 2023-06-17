@@ -8,7 +8,7 @@ import NotificationAPI from "../notification/NotificationAPI";
 
 const Router = () => {
     const basename =
-        process.env.NODE_ENV === "production" ? "/projects/Reqres/" : "";
+        process.env.NODE_ENV === "production" ? "/projects/reqres/" : "";
     return (
         <BrowserRouter basename={basename}>
             <NotificationAPI />
