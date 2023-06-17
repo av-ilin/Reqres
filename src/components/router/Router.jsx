@@ -28,9 +28,10 @@ const Router = () => {
                     element={
                         <div
                             style={{
-                                position: "absolute",
-                                left: "50%",
-                                top: "50%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                height: "100vh",
                             }}
                         >
                             Not Found
