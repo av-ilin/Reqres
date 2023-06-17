@@ -7,8 +7,8 @@ import RequireAuth from "../require-auth/RequireAuth";
 import NotificationAPI from "../notification/NotificationAPI";
 
 const Router = () => {
-    const basename =
-        process.env.NODE_ENV === "development" ? "" : "/projects/reqres/";
+    // const basename = "/projects/reqres/";
+    const basename = "";
     return (
         <BrowserRouter basename={basename}>
             <NotificationAPI />
